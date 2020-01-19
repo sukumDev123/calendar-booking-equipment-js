@@ -13,16 +13,52 @@
   <script src="src/WorkTable.js"></script>
 
   <script>
+    function init_(time, type, bk, color, nameEvent) {
+      return {
+        time,
+        type,
+        bk,
+        color,
+        nameEvent
+      };
+    }
+
+    function onClick(data) {
+      console.log({ data });
+    }
     new WorkTable(
       [
-        { time: "00:00", type: "start", color: "#000", nameEvent: "ff" },
-        { time: "01:30", type: "end", color: "#000", nameEvent: "ff" },
-        { time: "02:00", type: "start", color: "red", nameEvent: "ff2" },
-        { time: "03:00", type: "end", color: "red", nameEvent: "ff2" },
-        { time: "02:00", type: "start", color: "yellow", nameEvent: "ff" },
-        { time: "03:00", type: "end", color: "yellow", nameEvent: "ff" }
+        init_(
+          "00:00",
+          "start",
+          "rgba(255 , 0 , 255 , 0.3)",
+          "rgba(255 , 0 , 255 , 1)",
+          "Sukhum Nilpech"
+        ),
+        init_(
+          "01:00",
+          "end",
+          "rgba(255 , 0 , 255 , 0.3)",
+          "rgba(255 , 0 , 255 ,1)",
+          "Sukhum Nilpech"
+        ),
+        init_(
+          "02:00",
+          "start",
+          "rgba(255 , 0 , 255 , 0.3)",
+          "rgba(255 , 0 , 255 , 1)",
+          "Sukhum Nilpech"
+        ),
+        init_(
+          "10:00",
+          "end",
+          "rgba(255 , 0 , 255 , 0.3)",
+          "rgba(255 , 0 , 255 ,1)",
+          "Suk2hum Nilpech"
+        )
       ],
-      "#work-table"
+      "#work-table",
+      onClick
     );
   </script>
   <!-- <script src=""></script> -->

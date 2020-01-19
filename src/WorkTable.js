@@ -13,9 +13,10 @@ class WorkTable {
    */
   _create_element(elementName, text, class_) {
     const eleMent = document.createElement(elementName);
-    eleMent.className = class_;
+    if (class_) eleMent.className = class_;
     const textNode = document.createTextNode(text);
     eleMent.appendChild(textNode);
+
     return eleMent;
   }
 
@@ -31,7 +32,7 @@ class WorkTable {
 
     return datas_event;
   }
-  constructor(datas, queryS1) {
+  constructor(datas, queryS1, onClick) {
     this.datas = this.map_exists_data(datas);
     this.queryS1 = this._queryS(queryS1);
     const {
@@ -39,12 +40,11 @@ class WorkTable {
       createLeftTable,
       createRightTable
     } = this.createTable();
-
+    this.onClick = onClick;
     this.createBigTable = createBigTable;
     this.createLeftTable = createLeftTable;
     this.createRightTable = createRightTable;
 
-    this.loadDataForLeftTable();
     this.loadTime();
 
     this.queryS1.appendChild(this.createBigTable);
@@ -65,21 +65,7 @@ class WorkTable {
       createRightTable
     };
   }
-  loadDataForLeftTable() {
-    const datas = this.datas;
-    const keys = Object.keys(datas);
-    const bigDiv = this._create_element("div", "", "");
-    // keys.forEach((key, ind) => {
-    //   if (ind === 0) {
-    //     const h3 = this._create_element("h3", "EEE", "");
-    //     bigDiv.appendChild(h3);
-    //   } else {
-    //     const h3 = this._create_element("h3", keys[ind - 1], "");
-    //     bigDiv.appendChild(h3);
-    //   }
-    // });
-    this.createRightTable.appendChild(bigDiv);
-  }
+
   _createTimes(start, end) {
     let h = [];
     for (let i = start; i < end; i++) {
@@ -91,7 +77,7 @@ class WorkTable {
     return int_v >= 10 ? int_v : `0${int_v}`;
   }
 
-  __createAndZipTime() {
+  _create_header_times() {
     const hours = this._createTimes(0, 24);
     const mins = this._createTimes(0, 60);
 
@@ -135,27 +121,16 @@ class WorkTable {
         times[map_time1D[index - 1]] = index;
         createDivHeaderRightTable.appendChild(createh5);
       }
-      console.log({ times });
     });
     return { createDivHeaderRightTable, times };
   }
 
   //
   loadTime() {
-    const {
-      createDivHeaderRightTable,
-
-      times
-    } = this.__createAndZipTime();
+    const { createDivHeaderRightTable, times } = this._create_header_times();
 
     const map_event_with_times = this.datas;
     const keys = Object.keys(map_event_with_times);
-    let handleData = (time, type, color, name) => ({
-      time: time,
-      type: type,
-      color: color,
-      nameEvent: name
-    });
     const createBigg = this._create_element("div", "", "time____");
     createBigg.appendChild(createDivHeaderRightTable);
     // createBigg.appendChild(createDivHeaderRightTableDatas);
@@ -164,31 +139,37 @@ class WorkTable {
       "",
       "sub__"
     );
-    let name__ = {};
     keys.map((key, ind_) => {
       const subb = this._create_element("div", "", "header-right-table");
+      const s__ = this._create_element("div", "");
       const createh5Null = this._create_element("h5", "", "time-header");
       const createSmallNull = this._create_element("p", key, "");
-      name__[key] = ind_;
+      s__.onclick = () => {
+        this.onClick(key);
+      };
       createh5Null.appendChild(createSmallNull);
-      subb.appendChild(createh5Null);
+      s__.append(createh5Null);
+      subb.appendChild(s__);
       Object.keys(times).forEach((d, ind) => {
-        const createh5Null = this._create_element("h5", "", "time-header");
-        const createSmallNull = this._create_element("p", "", "");
+        const createh5Null = this._create_element(
+          "h5",
+          "",
+          "time-header",
+          this.onClick
+        );
+        const createSmallNull = this._create_element("p", "", "", this.onClick);
+        createh5Null.addEventListener("click", () => console.log(`aaedas`));
         createh5Null.appendChild(createSmallNull);
         subb.appendChild(createh5Null);
       });
       createDivHeaderRightTableDatas.appendChild(subb);
     });
     createBigg.appendChild(createDivHeaderRightTableDatas);
-    // console.log({ c: createBigg, name__ });
-
     this.createRightTable.appendChild(createBigg);
 
     let start;
     let end;
-    keys.map((key, i) => {
-      // map_event_with_times
+    keys.forEach((key, i) => {
       let this_data_element = document.querySelector(`.sub__`).children[i];
       if (map_event_with_times[key].length) {
         map_event_with_times[key].forEach(data => {
@@ -200,7 +181,7 @@ class WorkTable {
           if (data.type == "end") {
             end = indexOfelementTime;
           }
-          if ((start && end) || start === 0 || end === 0) {
+          if (start && end) {
             this._draw(start, end, data, this_data_element);
           }
         });
@@ -220,44 +201,10 @@ class WorkTable {
     if (createDivHeaderRightTableDatas) {
       const elementHandle =
         createDivHeaderRightTableDatas.children[indexElement].children[0];
-
-      elementHandle.style.background = time.color;
+      elementHandle.style.background = time.bk;
+      elementHandle.style.color = time.color ? time.color : "black";
       elementHandle.innerHTML = time.nameEvent;
+      elementHandle.style.borderLeft = `10px solid ${time.color}`;
     }
   }
 }
-
-//   createDivHeaderRightTableDatas.children[0].innerHTML = key;
-//   createDivHeaderRightTableDatas.children[map_event_with_times[key]];
-//   this._add_event_to_element(
-//     centerDrew,
-//     handleData(time_.timeEnd, time_.end, time_.color, key),
-//     createDivHeaderRightTableDatas
-//   );
-//   const time_ = map_event_with_times[key];
-//   let indexElement = "";
-//   if (time_.start) {
-//     indexElement = times[time_.timeStart];
-//     this._add_event_to_element(
-//       indexElement,
-//       handleData(time_.timeStart, time_.start, time_.color, "start"),
-//       createDivHeaderRightTableDatas
-//     );
-//     goAware = true;
-//     centerDrew = indexElement;
-//   }
-//   if (time_.end) {
-//     goAware = false;
-//     indexElement = times[time_.timeEnd];
-//     this._add_event_to_element(
-//       indexElement,
-//       handleData(time_.timeEnd, time_.end, time_.color, "end"),
-//       createDivHeaderRightTableDatas
-//     );
-//     centerDrew = parseInt((centerDrew + indexElement) / 2);
-//     this._add_event_to_element(
-//       centerDrew,
-//       handleData(time_.timeEnd, time_.end, time_.color, key),
-//       createDivHeaderRightTableDatas
-//     );
-//   }
