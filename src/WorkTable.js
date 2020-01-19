@@ -35,12 +35,14 @@ class WorkTable {
   constructor(datas, queryS1, onClick) {
     this.datas = this.map_exists_data(datas);
     this.queryS1 = this._queryS(queryS1);
+
+    this.onClick = onClick;
+
     const {
       createBigTable,
       createLeftTable,
       createRightTable
     } = this.createTable();
-    this.onClick = onClick;
     this.createBigTable = createBigTable;
     this.createLeftTable = createLeftTable;
     this.createRightTable = createRightTable;
@@ -206,5 +208,20 @@ class WorkTable {
       elementHandle.innerHTML = time.nameEvent;
       elementHandle.style.borderLeft = `10px solid ${time.color}`;
     }
+  }
+  add_new_data(datas) {
+    console.log({ datas });
+    while (this.queryS1.firstChild) this.queryS1.firstChild.remove();
+    this.datas = this.map_exists_data(datas);
+    console.log(this.datas);
+    const {
+      createBigTable,
+      createLeftTable,
+      createRightTable
+    } = this.createTable();
+    this.createBigTable = createBigTable;
+    this.createLeftTable = createLeftTable;
+    this.createRightTable = createRightTable;
+    this.loadTime();
   }
 }

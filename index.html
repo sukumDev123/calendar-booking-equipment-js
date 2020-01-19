@@ -8,11 +8,25 @@
     <link rel="stylesheet" href="src/worktable.css" />
   </head>
   <body>
+    <div id="show_event"></div>
+    <div class="input_">
+      <input type="text" id="time" placeholder="time" />
+      <input type="text" id="type" placeholder="type" />
+      <input type="text" id="bk" placeholder="bk" />
+      <input type="text" id="color" placeholder="color" />
+      <input type="text" id="nameEvent" placeholder="nameEvent" />
+      <button onclick="add()">add</button>
+      <button onclick="save()">save</button>
+    </div>
+
     <div id="work-table"></div>
   </body>
   <script src="src/WorkTable.js"></script>
 
   <script>
+    let gg = new WorkTable([], "#work-table", onClick);
+    const show_event = document.getElementById("show_event");
+    let mm = [];
     function init_(time, type, bk, color, nameEvent) {
       return {
         time,
@@ -26,40 +40,40 @@
     function onClick(data) {
       console.log({ data });
     }
-    new WorkTable(
-      [
-        init_(
-          "00:00",
-          "start",
-          "rgba(255 , 0 , 255 , 0.3)",
-          "rgba(255 , 0 , 255 , 1)",
-          "Sukhum Nilpech"
-        ),
-        init_(
-          "01:00",
-          "end",
-          "rgba(255 , 0 , 255 , 0.3)",
-          "rgba(255 , 0 , 255 ,1)",
-          "Sukhum Nilpech"
-        ),
-        init_(
-          "02:00",
-          "start",
-          "rgba(255 , 0 , 255 , 0.3)",
-          "rgba(255 , 0 , 255 , 1)",
-          "Sukhum Nilpech"
-        ),
-        init_(
-          "10:00",
-          "end",
-          "rgba(255 , 0 , 255 , 0.3)",
-          "rgba(255 , 0 , 255 ,1)",
-          "Suk2hum Nilpech"
-        )
-      ],
-      "#work-table",
-      onClick
-    );
+
+    function add() {
+      const time = document.getElementById("time");
+      const type = document.getElementById("type");
+      const bk = document.getElementById("bk");
+      const color = document.getElementById("color");
+      const nameEvent = document.getElementById("nameEvent");
+
+      let mm_ = init_(
+        time.value,
+        type.value,
+        bk.value,
+        color.value,
+        nameEvent.value
+      );
+      mm.push(mm_);
+      load_();
+      // gg.add_new_data()
+    }
+    function load_() {
+      while (show_event.firstChild) {
+        show_event.firstChild.remove();
+      }
+      mm.forEach(d => {
+        const t = document.createElement("h5");
+        const b = document.createTextNode(d.nameEvent);
+        t.appendChild(b);
+        show_event.appendChild(t);
+      });
+    }
+
+    function save() {
+      gg.add_new_data(mm);
+    }
   </script>
   <!-- <script src=""></script> -->
 </html>
