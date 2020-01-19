@@ -17,6 +17,7 @@
       <input type="text" id="nameEvent" placeholder="nameEvent" />
       <button onclick="add()">add</button>
       <button onclick="save()">save</button>
+      <button onclick="clear()">clear</button>
     </div>
 
     <div id="work-table"></div>
@@ -73,6 +74,9 @@
 
     function save() {
       gg.add_new_data(mm);
+    }
+    function clear() {
+      gg.clear();
     }
   </script>
   <!-- <script src=""></script> -->

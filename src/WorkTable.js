@@ -141,6 +141,8 @@ class WorkTable {
       "",
       "sub__"
     );
+
+    // importent create null time div
     keys.map((key, ind_) => {
       const subb = this._create_element("div", "", "header-right-table");
       const s__ = this._create_element("div", "");
@@ -171,6 +173,8 @@ class WorkTable {
 
     let start;
     let end;
+
+    // importent: load event and map event with time.
     keys.forEach((key, i) => {
       let this_data_element = document.querySelector(`.sub__`).children[i];
       if (map_event_with_times[key].length) {
@@ -210,8 +214,7 @@ class WorkTable {
     }
   }
   add_new_data(datas) {
-    console.log({ datas });
-    while (this.queryS1.firstChild) this.queryS1.firstChild.remove();
+    this.removeFirstNode();
     this.datas = this.map_exists_data(datas);
     console.log(this.datas);
     const {
@@ -223,5 +226,17 @@ class WorkTable {
     this.createLeftTable = createLeftTable;
     this.createRightTable = createRightTable;
     this.loadTime();
+  }
+  removeFirstNode() {
+    while (this.queryS1.firstChild) this.queryS1.firstChild.remove();
+  }
+  clear() {
+    this.removeFirstNode();
+    this.datas = [];
+    this.createBigTable = "";
+    this.createLeftTable = "";
+    this.createRightTable = "";
+    this.queryS1 = "";
+    this.onClick = "";
   }
 }
