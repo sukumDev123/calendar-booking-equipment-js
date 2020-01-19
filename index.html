@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/worktable.css" />
+  </head>
+  <body>
+    <div id="work-table"></div>
+  </body>
+  <script src="src/WorkTable.js"></script>
+
+  <script>
+    new WorkTable(
+      [
+        { time: "00:00", type: "start", color: "#000", nameEvent: "ff" },
+        { time: "01:30", type: "end", color: "#000", nameEvent: "ff" },
+        { time: "02:00", type: "start", color: "red", nameEvent: "ff2" },
+        { time: "03:00", type: "end", color: "red", nameEvent: "ff2" },
+        { time: "02:00", type: "start", color: "yellow", nameEvent: "ff" },
+        { time: "03:00", type: "end", color: "yellow", nameEvent: "ff" }
+      ],
+      "#work-table"
+    );
+  </script>
+  <!-- <script src=""></script> -->
+</html>
